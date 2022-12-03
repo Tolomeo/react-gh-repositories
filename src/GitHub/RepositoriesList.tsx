@@ -25,17 +25,17 @@ const GitHubRepositoriesList = ({ repositories }: Props) => {
           <ListItemIcon>
             <GitHubIcon />
           </ListItemIcon>
-          <ListItemButton component="a" href={repository.url}>
-            <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <ListItemButton component="a" href={repository.url}>
               <ListItemText>{repository.name}</ListItemText>
-              <ListItemText>
-                <Chip icon={<StarIcon />} label={repository.stargazerCount} />
-              </ListItemText>
-              <ListItemText>
-                <Chip icon={<ForkIcon />} label={repository.forkCount} />
-              </ListItemText>
-            </Stack>
-          </ListItemButton>
+            </ListItemButton>
+            <ListItemText>
+              <Chip icon={<StarIcon />} label={repository.stargazerCount} />
+            </ListItemText>
+            <ListItemText>
+              <Chip icon={<ForkIcon />} label={repository.forkCount} />
+            </ListItemText>
+          </Stack>
         </ListItem>
       ))}
     </List>
