@@ -5,6 +5,7 @@
     "format": "prettier --write \"./src/**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "test": "jest",
+    "test:watch": "jest --watch",
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html"
   },
