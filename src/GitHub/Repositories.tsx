@@ -1,13 +1,14 @@
 import React from 'react'
 import { useRepositoriesSearch } from '../Api'
+import { Alert } from '../Theme'
 import RepositoriesList from './RepositoriesList'
 
 const GitHubRepositories = () => {
   const { loading, error, data } = useRepositoriesSearch()
 
-  if (loading) return <span>Loading...</span>
+  if (loading) return <Alert severity="info">Loading...</Alert>
 
-  if (error) return <span>Error...</span>
+  if (error) return <Alert severity="error">{error.message}</Alert>
 
   const repositories = data?.search.nodes || []
 
