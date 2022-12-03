@@ -1,4 +1,23 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, QueryResult } from '@apollo/client'
+
+export interface Repository {
+  id: string
+  name: string
+  url: string
+  forkCount: number
+  stargazerCount: number
+}
+
+export interface RepositoriesSearchData {
+  search: {
+    repositoryCount: number
+    pageInfo: {
+      hasNextPage: boolean
+      hasPreviousPage: boolean
+    }
+    nodes: Repository[]
+  }
+}
 
 const repositoriesSearch = gql`
   {
@@ -23,4 +42,5 @@ const repositoriesSearch = gql`
   }
 `
 
-export const useRepositoriesSearch = () => useQuery(repositoriesSearch)
+export const useRepositoriesSearch = (): QueryResult<RepositoriesSearchData> =>
+  useQuery(repositoriesSearch)
