@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
+import user from '@testing-library/user-event'
 import { useRepositoriesSearch as useRepositoriesSearchMock } from '../Api'
 import Repositories from './Repositories'
 
@@ -22,16 +23,42 @@ jest.mock('./RepositoriesList', () => ({
   default: () => <span>RepositoriesList</span>,
 }))
 
+jest.mock('./RepositoriesSearch', () => ({
+  __esModule: true,
+  default: ({ setValue }: { setValue: (search: string) => unknown }) => (
+    <button type="button" onClick={() => setValue('PiffTheMagicDragon')}>
+      RepositoriesSearch
+    </button>
+  ),
+}))
+
 describe('Repositories', () => {
   beforeEach(() => {
     ;(useRepositoriesSearchMock as jest.Mock).mockClear()
   })
 
   test(`When it gets rendered,
-		it queries for repositories search data`, () => {
+		it queries for repositories search data with an initial default query`, () => {
     render(<Repositories />)
 
     expect(useRepositoriesSearchMock).toHaveBeenCalledTimes(1)
+    expect(useRepositoriesSearchMock).toHaveBeenCalledWith('is:public')
+  })
+
+  test(`When the user changes the search query
+		it queries for repositories search data with the new query string`, async () => {
+    render(<Repositories />)
+
+    act(() => {
+      user.click(screen.getByRole('button', { name: 'RepositoriesSearch' }))
+    })
+
+    await waitFor(() => {
+      expect(useRepositoriesSearchMock).toHaveBeenCalledTimes(2)
+    })
+    expect(useRepositoriesSearchMock).toHaveBeenLastCalledWith(
+      'PiffTheMagicDragon',
+    )
   })
 
   test(`When repositories data fetching is in progress,
@@ -60,8 +87,8 @@ describe('Repositories', () => {
     screen.getByText('Could not retrieve data')
   })
 
-  test(`When repositories data fetching succeeds,
-		it renders the repositories list`, () => {
+  test(`It renders the repositories search,
+		and it renders the repositories search list`, () => {
     ;(useRepositoriesSearchMock as jest.Mock).mockImplementationOnce(() => ({
       error: null,
       loading: false,
@@ -73,6 +100,7 @@ describe('Repositories', () => {
     }))
     render(<Repositories />)
 
+    screen.getByText('RepositoriesSearch')
     screen.getByText('RepositoriesList')
   })
 })
