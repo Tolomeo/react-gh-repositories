@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRepositoriesSearch } from '../Api'
-import { Alert } from '../Theme'
+import { Box, Alert } from '../Theme'
 import RepositoriesList from './RepositoriesList'
+import RepositoriesSearch from './RepositoriesSearch'
 
 const GitHubRepositories = () => {
-  const { loading, error, data } = useRepositoriesSearch()
-
-  if (loading) return <Alert severity="info">Loading...</Alert>
-
-  if (error) return <Alert severity="error">{error.message}</Alert>
+  const [searchValue, setSearchValue] = useState<string>('is:public')
+  const { loading, error, data } = useRepositoriesSearch(searchValue)
 
   const repositories = data?.search.nodes || []
 
-  return <RepositoriesList repositories={repositories} />
+  return (
+    <Box>
+      <Box pb={4}>
+        <RepositoriesSearch value={searchValue} setValue={setSearchValue} />
+      </Box>
+      {loading && <Alert severity="info">Loading...</Alert>}
+      {error && <Alert severity="error">{error.message}</Alert>}
+      <RepositoriesList repositories={repositories} />
+    </Box>
+  )
 }
 export default GitHubRepositories

@@ -11,6 +11,7 @@ export { default as Divider } from '@mui/material/Divider'
 export { default as Stack } from '@mui/material/Stack'
 export { default as Chip } from '@mui/material/Chip'
 export { default as Alert } from '@mui/material/Alert'
+export { default as TextField } from '@mui/material/TextField'
 
 // icons
 export { default as GitHubIcon } from '@mui/icons-material/GitHub'

@@ -19,9 +19,13 @@ export interface RepositoriesSearchData {
   }
 }
 
+export interface RepositoriesSearchVariables {
+  query: string
+}
+
 const repositoriesSearch = gql`
-  {
-    search(query: "is:public", type: REPOSITORY, first: 10) {
+  query Repositories($query: String!) {
+    search(query: $query, type: REPOSITORY, first: 10) {
       repositoryCount
       pageInfo {
         endCursor
@@ -42,5 +46,7 @@ const repositoriesSearch = gql`
   }
 `
 
-export const useRepositoriesSearch = (): QueryResult<RepositoriesSearchData> =>
-  useQuery(repositoriesSearch)
+export const useRepositoriesSearch = (
+  query: string,
+): QueryResult<RepositoriesSearchData, RepositoriesSearchVariables> =>
+  useQuery(repositoriesSearch, { variables: { query } })
