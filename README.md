@@ -45,6 +45,7 @@ Please refer to [https://docs.github.com/en/graphql/guides/forming-calls-with-gr
 - The GraphQL queries present hardcoded values to satisfy the needs of the project. It would be better nonetheless to make them configurable through variables to improve extendibility and adopting best practices
 - GraphQL queries consume more fields than needed by the application. This was done early in the execution to accommodate for further development. In a real world scenario it would be preferable to optimise and consume only what is needed
 - Consumers of GraphQL queries do not attempt to make any optimisation. It could be an improvement to apply debouncing to avoid unneeded calls. Similarly and depending on requirements, it could be valuable to avoid api calls in specific cases (ie empty input)
+- Architecturally speaking, there could be several improvements which could make the project more scalable. Among them are: creation a dedicated api subdomain for GitHub, decoupling consumers of api data from its response structure through the creation of a dedicated provider which would expose api methods and responses normalising them, encapsulation of Repositories feature in a GitHub subdomain
 - The current implementation, although visually working, generates some underlying html structures which are not strictly valid. It would be needed to fine the usage of UI components to generate valid structures
 - The current implementation doesn’t offer the best possible experience accessibility wise.
   Granular improvements would be needed.
