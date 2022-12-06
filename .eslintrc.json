@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "extends": "airbnb-typescript-prettier",
+  "rules": {
+    "react/function-component-definition": "off",
+    "import/prefer-default-export": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["*.spec.ts", "*.spec.tsx"],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          { "devDependencies": true }
+        ]
+      }
+    }
+  ]
+}
